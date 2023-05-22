@@ -17,7 +17,7 @@ The following project reads the MySQL Debezium events from Apache Kafka and proc
 
 1. Create a docker image of the replicator app [Dockerfile](Dockerfile)
 ```
-  docker build -t es.paradigma.cdc/replicator-mongodb:0.0.1-SNAPSHOT <Dockerfile-path>
+  docker build -t com.poc.cdc/replicator-mongodb:0.0.1-SNAPSHOT <Dockerfile-path>
 ```
 
 2. Build environment (MySQL + Apache Zookeeper + Apache Kafka + Apache Kafka Connect + Kafdrop + MongoDB + Debezium MySQL connector) [Script](environment/init_environment.sh)

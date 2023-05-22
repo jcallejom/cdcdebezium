@@ -49,7 +49,7 @@ services:
       - kafka
       - mysql
   replicator:
-    image: es.paradigma.cdc/replicator-mongodb:0.0.1-SNAPSHOT
+    image: com.poc.cdc/replicator-mongodb:0.0.1-SNAPSHOT
     container_name: replicator
     environment:
       - SPRING_DATA_MONGODB_USERNAME=admin
@@ -64,6 +64,9 @@ services:
     links:
       - kafka
       - mongo
+ ##########################################################################     
+ #web UI for monitoring Apache Kafka clusters
+ ##########################################################################       
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
     container_name: kafdrop
@@ -74,3 +77,22 @@ services:
     links:
       - zookeeper
       - kafka
+#database admin service
+  adminer:
+    #container_name: adminer
+    image: adminer
+    restart: always
+    depends_on: 
+      - mysql
+    ports:
+       - 9090:8080
+ ##########################################################################     
+ #dbeaver service
+ ##########################################################################       
+  dbeaver:
+    image: dbeaver/cloudbeaver
+    restart: always
+    ports:
+      - 8978:8978
+    depends_on:
+      - mysql
