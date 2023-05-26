@@ -38,6 +38,9 @@ services:
     container_name: connect
     ports:
       - 8083:8083
+    volumes:
+        #allow *.sql, *.sql.gz, or *.sh and is execute only if data directory is empty
+        - ./kafka/ojdbc8.jar:/kafka/libs/ojdbc8.jar
     environment:
       - BOOTSTRAP_SERVERS=kafka:9092
       - GROUP_ID=1
@@ -48,6 +51,7 @@ services:
       - zookeeper
       - kafka
       - mysql
+      - dbz_oracle21
   replicator:
     image: com.poc.cdc/replicator-mongodb:0.0.1-SNAPSHOT
     container_name: replicator
@@ -61,9 +65,23 @@ services:
       - KAFKA_HOST=kafka:9092
       - KAFKA_GROUP=replicator-dev
       - KAFKA_TOPIC_PRODUCT=dbserver1.inventory.products
+      - KAFKA_TOPIC_CUSTOMER=server1.C__DBZUSER.CUSTOMERS
     links:
       - kafka
       - mongo
+  dbz_oracle21:
+    #image: container-registry.oracle.com/database/enterprise:latest
+    image: oracle21configured:latest
+    container_name: oracle21c
+    ports:
+      - 1521:1521
+    environment:
+    #Sid database
+    - ORACLE_SID=ORCLCDB
+    #optional this is default user 
+    - ORACLE_PDB=ORCLPDB1
+    # optional change user SYSTEM password 
+    - ORACLE_PWD=oraclepw 
  ##########################################################################     
  #web UI for monitoring Apache Kafka clusters
  ##########################################################################       

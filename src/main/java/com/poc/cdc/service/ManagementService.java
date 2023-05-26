@@ -6,4 +6,6 @@ public interface ManagementService {
   
   void manageProduct(EventPayload payload);
   
+  void manageCustomer(EventPayload payload);
+  
 }
